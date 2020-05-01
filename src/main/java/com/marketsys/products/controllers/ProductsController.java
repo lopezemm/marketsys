@@ -31,7 +31,7 @@ public class ProductsController {
 	public ProductModel getProduct(@PathVariable String product_code) {
 		return productRepo.findByProduct_code(product_code);
 	}
-
+    //Add products
 	@RequestMapping(method=RequestMethod.POST, value = "/addProduct")
 	public void addProduct(@RequestBody ProductFromAng prodAng) {				
 		productRepo.save(mapper.mapToProductModel(prodAng));
