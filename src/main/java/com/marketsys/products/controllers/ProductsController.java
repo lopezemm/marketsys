@@ -1,5 +1,7 @@
 package com.marketsys.products.controllers;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +35,15 @@ public class ProductsController {
 	}
     //Add products
 	@RequestMapping(method=RequestMethod.POST, value = "/addProduct")
-	public void addProduct(@RequestBody ProductFromAng prodAng) {				
-		productRepo.save(mapper.mapToProductModel(prodAng));
+	public String addProduct(@RequestBody ProductFromAng prodAng) {
+		try {
+			productRepo.save(mapper.mapToProductModel(prodAng));
+			return "{\"message\":\"ok\"}";
+		}catch(PersistenceException e) {
+			//Have to send message for each error
+			return "{\"myError\":\"fatal error 500\"}";
+			//return ("Error in save method " + e);
+		}
+		 
 	}
 }
