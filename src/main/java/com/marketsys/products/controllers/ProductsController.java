@@ -45,5 +45,19 @@ public class ProductsController {
 			//return ("Error in save method " + e);
 		}
 		 
+	}		
+	//Remove a product
+	@RequestMapping(method=RequestMethod.POST, value = "/deleteProd/{product_code}")
+	public String deleteProduct(@PathVariable String product_code) {
+		try {
+			productRepo.deleteProduct(product_code);
+			return "{\"message\":\"ok\"}";
+		}catch(PersistenceException e) {
+			//Have to send message for each error
+			return "{\"myError\":\"fatal error 500\"}";
+			//return ("Error in save method " + e);
+		}
 	}
+	
+	
 }
