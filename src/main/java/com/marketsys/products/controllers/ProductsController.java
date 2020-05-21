@@ -28,7 +28,7 @@ public class ProductsController {
 	public String sayHi() {
 		return "hi";
 	}
-	
+	//get product by product code
 	@RequestMapping("/getProduct/{product_code}")
 	public ProductModel getProduct(@PathVariable String product_code) {
 		return productRepo.findByProduct_code(product_code);
@@ -58,6 +58,26 @@ public class ProductsController {
 			//return ("Error in save method " + e);
 		}
 	}
+	//Retrieve product by name
+	@RequestMapping("/searchProduct/{name}")
+	public ProductModel getProdName(@PathVariable String name){
+		try {
+			return productRepo.findByProduct_name(name);
+		}catch(PersistenceException e) {
+			return null;
+		}
+	}
 	
-	
+	//Update product
+	@RequestMapping (method=RequestMethod.POST, value = "/updateProd")
+	public String updateProd(@RequestBody ProductModel prodModel) {
+		try {
+			productRepo.save(prodModel);
+			return "{\"message\":\"ok\"}";
+		}catch(PersistenceException e) {
+			//Have to send message for each error
+			return "{\"myError\":\"fatal error 500\"}";
+			//return ("Error in save method " + e);
+		}
+	}
 }

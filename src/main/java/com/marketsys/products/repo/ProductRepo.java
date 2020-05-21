@@ -18,4 +18,6 @@ public interface ProductRepo extends CrudRepository<ProductModel, Integer> {
 	 @Query(value = "DELETE FROM mymarket_db.products t where t.product_code = :product_code", nativeQuery = true)
 	 public void deleteProduct(String product_code);
 
+	 @Query(value = "SELECT * FROM mymarket_db.products t where t.product_name like %:name%", nativeQuery = true) 
+	 public ProductModel findByProduct_name(@Param("name") String name);
 }
