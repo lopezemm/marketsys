@@ -39,7 +39,7 @@ public class UtilMapper {
 		return last_update;
 	}
 	
-	private Date getDate() {
+	public Date getDate() {
 		DateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 		Date today = Calendar.getInstance().getTime();        
 		return today;

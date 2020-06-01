@@ -1,5 +1,6 @@
 package com.marketsys.sales.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.marketsys.sales.model.SalesModel;
 import com.marketsys.sales.model.SalesWrapper;
 import com.marketsys.sales.repo.SalesRepo;
+import com.marketsys.mapper.UtilMapper;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -28,8 +30,11 @@ public class SalesController {
 	public String getSaleTransaction(@RequestBody SalesWrapper saleTransactions) {
 		try {
 			
-			x = saleRepo.getMaxTransactionId();			
+			x = saleRepo.getMaxTransactionId() + 1;			
 			List<SalesModel> sales= saleTransactions.getSalesWrapper();
+			//Lambda expression to add transaction id and data
+			sales.forEach(s -> {s.setTransactionid(x); s.setDate(new UtilMapper().getDate());});		
+			System.out.println(sales);
 			saleRepo.saveAll(sales);
 			return "{\"message\":\"ok\"}";
 		}catch(PersistenceException e) {
